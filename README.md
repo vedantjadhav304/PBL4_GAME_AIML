@@ -55,9 +55,11 @@ You will need Python 3.x and the `pygame` library installed on your machine.
    ```bash
    pip install pygame
 
-   ## 🧠 Algorithms & Mechanics Under the Hood
+   
 
 This game is driven by several classic computer science algorithms and game development techniques to create a smooth, intelligent, and challenging experience.
+
+## 🧠  Alogrithms Used
 
 ### 1. A* (A-Star) Pathfinding
 
