@@ -63,26 +63,45 @@ This game is driven by several classic computer science algorithms and game deve
 
 ### 1. A* (A-Star) Pathfinding
 
+## 🧠 Algorithms & Mechanics Under the Hood
+
+This game is driven by several classic computer science algorithms and game development techniques to create a smooth, intelligent, and challenging experience.
+
+### 1. A* (A-Star) Pathfinding
+
+
 When an enemy spots you and enters the **HUNT** state, it uses the A* search algorithm to find the absolute shortest path to your location while navigating around walls. 
+
 * **How it works:** It uses a priority queue (`heapq`) to evaluate tiles based on two costs: the distance already traveled from the enemy, and a "heuristic" (guess) of the remaining distance to the player. 
 * **Why it's used:** It guarantees the shortest path on a 2D grid much faster than checking every single tile (like Dijkstra's algorithm would).
 
-### 2. Manhattan Distance Metric
-Throughout the code, you will see a `dist(p1, p2)` function calculating `abs(p1[x] - p2[x]) + abs(p1[y] - p2[y])`. 
-* **How it works:** Because characters can only move strictly up, down, left, or right (no diagonals), standard Euclidean distance (the Pythagorean theorem) would be inaccurate. Manhattan distance measures the exact number of grid steps required to reach a target.
-* **Where it's used:** It dictates the Fog of War radius, triggers enemy line-of-sight, calculates melee attack range, and serves as the heuristic for the A* algorithm.
+### 2. BFS (Breadth-First Search)
 
-### 3. Finite State Machine (FSM) for AI
+
+When a Hunter enemy loses sight of you, it picks a random coordinate in the maze and uses BFS to find a path to that specific point.
+
+* **How it works:** BFS explores the grid level-by-level, expanding equally in all directions like a ripple in a pond. 
+* **Why it's used:** While slower than A* for hunting, BFS is excellent for structured patrolling where the AI just needs to find a guaranteed valid path through a complex maze without relying on a targeted heuristic.
+
+### 3. Minimax (Adversarial Search)
+
+
+If you get within 4 tiles of the Boss, it stops using A* pathfinding and switches to Minimax to corner you.
+
+* **How it works:** Minimax simulates the game into the future (looking 2 turns ahead). It simulates every possible move the Boss can make, and then simulates the Player's best response to run away, choosing the move that *maximizes* its ability to trap the player.
+* **Why it's used:** Pathfinding algorithms just walk toward you. Minimax creates highly aggressive, "smart" enemies that actually try to cut off your escape routes.
+
+### 4. Finite State Machine (FSM) for AI
 Instead of complex, resource-heavy decision trees (like Minimax), the enemies use a lightweight Finite State Machine to transition between behaviors instantly:
 * **PATROL:** The enemy wanders by shuffling adjacent tiles and moving to a random valid, unoccupied space.
 * **HUNT:** Triggered when the player's Manhattan distance is `<=` the enemy's `vision` stat. Hands control over to the A* algorithm.
 * **ATTACK:** Triggered when the distance is exactly `1`. Halts movement and deals damage directly to the player.
 
-### 4. Linear Interpolation (Lerping)
+### 5. Linear Interpolation (Lerping)
 Grid-based games often suffer from "teleporting" graphics, where a character instantly snaps from one tile to the next. 
 * **How it works:** The game separates *Logical Position* (e.g., Grid `[2, 3]`) from *Drawing Position* (e.g., Pixel `[80, 120]`). The `lerp(a, b, t)` function smoothly glides the drawing coordinates toward the logical coordinates every frame.
 * **Why it's used:** It creates buttery-smooth, modern-feeling movement animations without overcomplicating the grid math.
 
-### 5. Procedural Generation with Rejection Sampling
+### 6. Procedural Generation with Rejection Sampling
 Every floor is randomly generated, but it must be playable.
 * **How it works:** When placing the 100+ walls, the game uses a `while` loop with Rejection Sampling. It generates a random coordinate, but *rejects* it if it lands within a 2-tile radius of the Player's spawn point or the Exit block. This guarantees you are never trapped the moment a level starts.
