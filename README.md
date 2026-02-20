@@ -19,6 +19,7 @@ The game features three distinct enemy types, each requiring different strategie
 * 🔵 **Hunter:** The standard patrol unit. Medium speed, medium damage, medium health.
 * 🟡 **Scout:** Fast and aggressive. Moves very quickly and has a wide vision radius, but possesses low health and deals low damage.
 * 🟠 **Tank:** Slow but deadly. Moves sluggishly and has poor vision, but boasts massive health and deals catastrophic damage if it catches you.
+* 🟣 **Boss:** Fast movement speed , does maximum damage to player and only one which has access to MINMAX algo to corner a player 
 
 ---
 
